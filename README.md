@@ -1,3 +1,5 @@
+![reserved](https://github.com/snowboardit/reserved/assets/23141894/95aff914-eb3c-432a-9ce3-25d74695c067)
+
 # Reserved
 
 _Reserved_ is a CLI built with Go that determines reserved words in programming/database languages or your favorite stack.
