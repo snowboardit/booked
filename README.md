@@ -8,9 +8,7 @@ Go [here](https://github.com/snowboardit/reserved/issues/3) for a list of curren
 
 ## Installation
 
-> 💡 Assumes your Go environment has been setup
-
-**Install**
+> 💡 Assumes you have Go installed (written using `v1.21.3`)
 
 ```sh
 go install github.com/snowboardit/reserved@latest
