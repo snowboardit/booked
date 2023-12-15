@@ -10,16 +10,10 @@ Go [here](https://github.com/snowboardit/reserved/issues/3) for a list of curren
 
 > 💡 Assumes your Go environment has been setup
 
-**Download**
-
-```sh
-$ go get github.com/snowboardit/reserved
-```
-
 **Install**
 
 ```sh
-$ go install
+go install github.com/snowboardit/reserved@latest
 ```
 
 ## Usage
