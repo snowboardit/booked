@@ -4,6 +4,8 @@
 
 _Reserved_ is a CLI built with Go that determines reserved words in programming/database languages or your favorite stack.
 
+Go [here](https://github.com/snowboardit/reserved/issues/3) for a list of currently supported languages.
+
 ## Installation
 
 > 💡 Assumes your Go environment has been setup
