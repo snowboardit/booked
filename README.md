@@ -6,7 +6,7 @@ _Reserved_ is a CLI built with Go that determines reserved words in programming/
 
 ## Installation
 
-> ⚠️ Assumes you have already setup your Go environment
+> 💡 Assumes your Go environment has been setup
 
 **Download**
 
@@ -35,9 +35,9 @@ $ reserved --help
 
 > ⚠️ **This list is by no means current or complete!**
 
-To get started, I asked GPT-4 to produce a list of all the programming and database languages, omitting those that are obscure and rarely used. GPT-4 isn't perfect and neither am I, so the data requires validation before being considered a reliable source.
+To get started, I asked GPT-4 to produce a list of all the programming and database languages, omitting those that are obscure and rarely used. GPT-4 isn't perfect and neither am I, so the data requires validation before being considered a reliable source. Validated languages are being tracked [here](https://github.com/snowboardit/reserved/issues/4).
 
-The data file is located here: `pkg/data/data.json`
+The data file is located [here](https://github.com/snowboardit/reserved/edit/master/pkg/data/data.json): `pkg/data/data.json`
 
 Please feel free to contribute to the data to include missing information, or new languages and words. Learn more in the [contributing](#contributing) section below.
 
