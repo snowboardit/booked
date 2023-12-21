@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+
+#################
+### RESERVEDB ###
+#################
+
+### This script will drop and recreate the database
+### and seed it with the data from seed.sql         
+
+# load the environment variables
+DB_NAME="reserved"
+
+# drop and recreate the database
+psql -U postgres -c "DROP DATABASE IF EXISTS $DB_NAME;"
+psql -U postgres -c "CREATE DATABASE $DB_NAME;"
+
+# setup the database
+psql -U postgres -d $DB_NAME -f ./db/database.sql

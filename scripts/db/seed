@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+#################
+### RESERVEDB ###
+#################
+
+### This script will seed the database with the data from seed.sql
+
+# load the environment variables
+DB_NAME="reserved"
+
+# seed the database
+psql -U postgres -d $DB_NAME -f ./db/data.sql
