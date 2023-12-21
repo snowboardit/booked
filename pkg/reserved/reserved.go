@@ -8,67 +8,50 @@ import (
 )
 
 type Reserved struct {
-	languages map[string][]string
+	languages []data.Language
 }
 
-type Checked struct {
-	Reserved map[string][]string
+type Checked map[string][]string
+
+// create new reserved instance
+func New() *Reserved {
+	r := &Reserved{}
+	return r
 }
 
-var s = data.GetStoreInstance()
+// Get all language names loaded
+func (r *Reserved) Languages() []string {
+	d := data.Get()
+	languages := []string{}
 
-// TODO - include language root, so we can filter by programming/database
-func (r *Reserved) Load() error {
-	// load languages and their words into map
-	r.languages = make(map[string][]string)
-	for _, l := range s.Data.Programming {
-		r.languages[l.Name] = l.Words
+	for _, l := range d.Languages {
+		row := l.Name
+		if len(l.Aliases) > 0 {
+			row += fmt.Sprintf(" (%s)", strings.Join(l.Aliases, ", "))
+		}
+		languages = append(languages, row)
 	}
-	for _, l := range s.Data.Database {
-		r.languages[l.Name] = l.Words
-	}
-	return nil
+
+	return languages
 }
 
 // Check if word(s) are reserved in all languages
 // returns a slice of languages the word is reserved in
 func (r *Reserved) Check(words ...string) Checked {
-	reserved := Checked{Reserved: make(map[string][]string)}
+	d := data.Get()
+	checked := make(map[string][]string)
 
-	if r.languages == nil {
-		r.Load()
-	}
-
-	for _, w := range words {
-		for lk, l := range r.languages {
-			for _, lw := range l {
-				word := strings.ToLower(w)
-				languageWord := strings.ToLower(lw)
-				if word == languageWord {
-					reserved.Reserved[word] = append(reserved.Reserved[word], lk)
+	for _, l := range d.Languages {
+		for _, w := range words {
+			for _, lw := range l.Words {
+				if lw == w {
+					checked[l.Name] = append(checked[l.Name], w)
 				}
 			}
 		}
 	}
-	return reserved
-}
 
-// TODO
-// Check if word(s) are reserved in programming languages
-func (r *Reserved) CheckProgramming(words ...string) bool {
-	return false
-}
-
-// TODO
-// Check if word(s) are reserved in database languages
-func (r *Reserved) CheckDatabase(words ...string) bool {
-	return false
-}
-
-// TODO
-// Check if word(s) are reserved in stack
-func (r *Reserved) CheckStack(words ...string) bool {
-	return false
+	return checked
 }
 
 // String output when printing checked
@@ -78,19 +61,19 @@ func (c Checked) String() string {
 		output string
 	)
 
-	fmt.Println()
-	for w, l := range c.Reserved {
-		output += fmt.Sprintf("`%s`", w) + " is reserved in\n"
+	for w, l := range c {
+		output += fmt.Sprintf("%s\n", w)
 		for i, lw := range l {
-			output += "- " + lw
+			output += "• " + lw
 			if i < len(l)-1 {
 				output += "\n"
 			}
 		}
-		if index < len(c.Reserved)-1 {
+		if index < len(c)-1 {
 			output += "\n\n"
 		}
 		index++
 	}
+
 	return output
 }

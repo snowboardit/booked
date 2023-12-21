@@ -3,49 +3,42 @@ package data
 import (
 	_ "embed"
 	"encoding/json"
-	"sync"
+	"fmt"
+)
+
+type LanguageKind string
+
+const (
+	ProgrammingType LanguageKind = "programming"
+	DatabaseType    LanguageKind = "database"
 )
 
 type Language struct {
 	Name    string   `json:"name"`
+	Kind    string   `json:"kind"`
 	Aliases []string `json:"aliases"`
 	Words   []string `json:"words"`
 }
 
-type Languages struct {
-	Programming []Language `json:"programming"`
-	Database    []Language `json:"database"`
-}
-
 type Store struct {
-	Data Languages
+	Languages []Language `json:"languages"`
 }
 
+// embed data file in binary
+//
 //go:embed data.json
 var bytes []byte
 
-var (
-	storeInstance *Store
-	once          sync.Once
-)
+// where we store the embedded data
+var data Store
 
-func GetStoreInstance() *Store {
-	// ensure singleton
-	once.Do(func() {
-		storeInstance = &Store{}
-		err := storeInstance.Load()
-		if err != nil {
-			panic(err)
-		}
-	})
-	return storeInstance
+func init() {
+	if err := json.Unmarshal(bytes, &data); err != nil {
+		fmt.Printf("Error loading data:\n%e", err)
+	}
 }
 
-func (s *Store) Load() error {
+func Get() *Store {
 	// unmarshal json data into Data struct
-	err := json.Unmarshal(bytes, &s.Data)
-	if err != nil {
-		return err
-	}
-	return nil
+	return &data
 }

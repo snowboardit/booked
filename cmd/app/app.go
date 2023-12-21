@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/snowboardit/reserved/pkg/cli/commands"
 	"github.com/snowboardit/reserved/pkg/reserved"
 	"github.com/urfave/cli/v2"
 )
@@ -17,33 +18,25 @@ const (
 
 var (
 	App *cli.App
-	r   = reserved.Reserved{}
 )
 
-func Init() {
+func init() {
+	// setup app
 	App = &cli.App{
-		Name:     name,
-		Version:  version,
-		Compiled: time.Now(),
-		// Authors: []*cli.Author{
-		// 	{
-		// 		Name:  "Max Lareau",
-		// 		Email: "info@maxlareau.com",
-		// 	},
-		// },
+		Name:      name,
+		Version:   version,
+		Compiled:  time.Now(),
 		HelpName:  "Reserved",
-		Usage:     "a cli tool for determining if word(s) are reserved in programming/database languages",
+		Usage:     "a cli to determine if word(s) are reserved in programming/database languages",
 		UsageText: "$ reserved [options] [words...]",
 		ArgsUsage: "[words, names, and such]",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{Name: "programming", Aliases: []string{"p"}},
 			&cli.BoolFlag{Name: "database", Aliases: []string{"d"}},
-			&cli.BoolFlag{Name: "stack", Aliases: []string{"s"}},
 		},
 		EnableBashCompletion: true,
 		Suggest:              true,
 		HideHelp:             false,
-		// HideVersion:          false,
 		Action: func(cCtx *cli.Context) error {
 			// get arg(s)
 			args := cCtx.Args().Slice()
@@ -53,6 +46,8 @@ func Init() {
 				cli.ShowAppHelp(cCtx)
 				return nil
 			}
+
+			var r = reserved.New()
 
 			// stack flag
 			if cCtx.Bool("stack") {
@@ -78,10 +73,11 @@ func Init() {
 
 			// default: check if args are reserved across all languages
 			words := r.Check(args...)
-			if len(words.Reserved) > 0 {
+			if len(words) > 0 {
+				fmt.Println("❌ Some of the words are reserved")
 				fmt.Println()
-				fmt.Println("❗️ Words are reserved")
 				fmt.Printf("%s", words.String())
+				fmt.Println()
 				fmt.Println()
 			} else {
 				fmt.Println("✅ None of the words are reserved")
@@ -90,12 +86,12 @@ func Init() {
 			return nil
 		},
 	}
+
+	// setup commands
+	commands.Init(App)
 }
 
 func Start() {
-	// Cli setup
-	Init()
-
-	// Run the cli
+	// Run
 	App.Run(os.Args)
 }

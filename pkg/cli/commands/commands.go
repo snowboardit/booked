@@ -1,6 +1,8 @@
 package commands
 
 import (
+	"github.com/snowboardit/reserved/pkg/reserved"
+
 	"fmt"
 
 	"github.com/urfave/cli/v2"
@@ -8,25 +10,21 @@ import (
 
 var commands []*cli.Command = []*cli.Command{
 	{
-		Name: "reserved",
-		// Aliases:     []string{"rd"},
-		Category:    "base",
-		Usage:       "$ reserved [options] [words...]",
-		UsageText:   "doo - does the dooing",
-		Description: "no really, there is a lot of dooing to be done",
-		ArgsUsage:   "[words...]",
-		Flags: []cli.Flag{
-			&cli.BoolFlag{Name: "forever", Aliases: []string{"forevvarr"}},
-		},
+		Name:        "languages",
+		Usage:       "list all loaded languages",
+		Description: "list all loaded languages",
 		Action: func(cCtx *cli.Context) error {
-			cCtx.Command.FullName()
-			cCtx.Command.HasName("wop")
-			cCtx.Command.Names()
-			cCtx.Command.VisibleFlags()
-			fmt.Fprintf(cCtx.App.Writer, "dodododododoodododddooooododododooo\n")
-			if cCtx.Bool("forever") {
-				cCtx.Command.Run(cCtx)
+			r := reserved.New()
+			languages := r.Languages()
+
+			if len(languages) < 1 {
+				return fmt.Errorf("No languages found")
 			}
+
+			for _, w := range languages {
+				fmt.Printf("%s\n", w)
+			}
+
 			return nil
 		},
 	},
