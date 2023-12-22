@@ -35,6 +35,16 @@ The data file is located [here](https://github.com/snowboardit/reserved/edit/mas
 
 Please feel free to contribute to the data to include missing information, or new languages and words. Learn more in the [contributing](#contributing) section below.
 
+### Relational Database
+
+For you data curious developers, I've created a script to convert and load the `data.json` file above into a PostgreSQL database to play with.
+
+1. Run `scripts/db/reset` to setup the database
+2. Then run the conversion script `scripts/convert/json-to-sql.go` to load the database
+
+**🏆 Bonus:**
+Execute `db/sql/top-10.sql` to list the top 10 words across all languages.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, like adding a language or new property, please open an issue first
