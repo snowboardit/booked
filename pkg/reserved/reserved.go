@@ -51,7 +51,24 @@ func (r *Reserved) Check(words ...string) Checked {
 		}
 	}
 
-	return checked
+// Check if word(s) are reserved in programming languages
+// returns a slice of languages the word is reserved in
+func (r *Reserved) CheckProgramming(words ...string) Checked {
+	d := data.Get()
+	result := make(map[string][]string)
+
+	for _, l := range d.Languages {
+		if l.Kind == "programming" {
+			for _, w := range words {
+				for _, lw := range l.Words {
+					if lw == w {
+						result[l.Name] = append(result[l.Name], w)
+					}
+				}
+			}
+		}
+	}
+	return result
 }
 
 // String output when printing checked
