@@ -12,8 +12,10 @@ import (
 )
 
 const (
-	name    = "reserved"
-	version = "v0.0.1"
+	name                = "reserved"
+	version             = "v0.0.1"
+	wordsAreReserved    = "❌ Some of the words are reserved"
+	wordsAreNotReserved = "✅ None of the words are reserved"
 )
 
 var (
@@ -59,8 +61,16 @@ func init() {
 
 			// programming flag
 			if cCtx.Bool("programming") {
-				fmt.Printf("Args: %s", strings.Join(args, ", "))
-				fmt.Println("Checking if words are reserved in programming languages...")
+				words := r.CheckProgramming(args...)
+				if len(words) > 0 {
+					fmt.Println(wordsAreReserved)
+					fmt.Println()
+					fmt.Printf("%s", words.String())
+					fmt.Println()
+					fmt.Println()
+				} else {
+					fmt.Println(wordsAreNotReserved)
+				}
 				return nil
 			}
 
@@ -74,13 +84,13 @@ func init() {
 			// default: check if args are reserved across all languages
 			words := r.Check(args...)
 			if len(words) > 0 {
-				fmt.Println("❌ Some of the words are reserved")
+				fmt.Println(wordsAreReserved)
 				fmt.Println()
 				fmt.Printf("%s", words.String())
 				fmt.Println()
 				fmt.Println()
 			} else {
-				fmt.Println("✅ None of the words are reserved")
+				fmt.Println(wordsAreNotReserved)
 			}
 
 			return nil
