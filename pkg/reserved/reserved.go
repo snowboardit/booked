@@ -7,10 +7,7 @@ import (
 	"github.com/snowboardit/reserved/pkg/data"
 )
 
-type Reserved struct {
-	languages []data.Language
-}
-
+type Reserved struct{}
 type Checked map[string][]string
 
 // create new reserved instance
