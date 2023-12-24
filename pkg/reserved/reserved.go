@@ -50,6 +50,8 @@ func (r *Reserved) Check(words ...string) Checked {
 			}
 		}
 	}
+	return checked
+}
 
 // Check if word(s) are reserved in programming languages
 // returns a slice of languages the word is reserved in
