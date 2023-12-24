@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# run all tests
+echo "Running tests..."
+go test -v -run=^$ ./...
