@@ -76,8 +76,16 @@ func init() {
 
 			// database flag
 			if cCtx.Bool("database") {
-				fmt.Printf("Args: %s", strings.Join(args, ", "))
-				fmt.Println("Checking if words are reserved in database languages...")
+				words := r.CheckDatabase(args...)
+				if len(words) > 0 {
+					fmt.Println(wordsAreReserved)
+					fmt.Println()
+					fmt.Printf("%s", words.String())
+					fmt.Println()
+					fmt.Println()
+				} else {
+					fmt.Println(wordsAreNotReserved)
+				}
 				return nil
 			}
 
